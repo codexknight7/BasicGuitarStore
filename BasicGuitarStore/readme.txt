@@ -1,0 +1,2 @@
+Just a few months ago, Rick decided to throw out his paper-basedsystem for keeping track of guitars, and start using a computer-basedsystem to store his inventory. He hired a popular programming firm,
+Down and Dirty Coding, and they’ve built him an inventorymanagement app. He’s even had the firm build him a new searchtool to help him match up a customer to their dream instrument.
