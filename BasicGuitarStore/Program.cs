@@ -7,7 +7,7 @@ namespace BasicGuitarStore
     {
         private static Inventory inventory = initializeInventory();
 
-        private static Guitar whatErinLikes = new Guitar("", 0, "fender", "Stratocastor", "electric", "Alder", "Alder");
+        private static GuitarSpec whatErinLikes = new GuitarSpec("fender", "Stratocastor", "electric", "Alder", "Alder");
 
         public static void Main()
         {
@@ -18,10 +18,11 @@ namespace BasicGuitarStore
                 Console.WriteLine("Erin, you might like this: \n");
                 foreach (var guitar in matchingGuitars)
                 {
-                    Console.WriteLine(guitar.Builder + " " + guitar.Model + "\n" +
-                        guitar.Type + " guitar:\n " +
-                        guitar.BackWood + " back and sides,\n " +
-                        guitar.TopWood + " top.\nYou can have it for only $" +
+                    GuitarSpec spec = guitar.GuitarSpec;
+                    Console.WriteLine(spec.Builder + " " + spec.Model + "\n" +
+                        spec.Type + " guitar:\n " +
+                        spec.BackWood + " back and sides,\n " +
+                        spec.TopWood + " top.\nYou can have it for only $" +
                         guitar.Price + "! \n ----"
                     );
                 }
@@ -35,8 +36,11 @@ namespace BasicGuitarStore
         private static Inventory initializeInventory()
         {
             Inventory inventory = new Inventory();
-            inventory.addGuitar("V95693", 1499.95, "Fender", "Stratocastor", "electric", "Alder", "Alder");
-            inventory.addGuitar("V9512", 1549.95, "FENDER", "Stratocastor", "ELECTRIC", "Alder", "Alder");
+            GuitarSpec spec1 = new GuitarSpec("Fender", "Stratocastor", "electric", "Alder", "Alder");
+            GuitarSpec spec2 = new GuitarSpec("FENDER", "Stratocastor", "ELECTRIC", "Alder", "Alder");
+
+            inventory.addGuitar("V95693", 1499.95, spec1);
+            inventory.addGuitar("V9512", 1549.95, spec2);
             return inventory;
         }
 

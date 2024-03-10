@@ -10,20 +10,20 @@ namespace BasicGuitarStore
 {
     internal class Inventory
     {
-        private List<Guitar> guitars;
+        private List<Guitar> _guitars;
 
-        public Inventory() 
+        public Inventory()
         {
-            guitars = new List<Guitar>();
+            _guitars = new List<Guitar>();
         }
-        public void addGuitar(string serialNumber, double price, string builder, string model, string type, string backWood, string topWood)
+        public void addGuitar(string serialNumber, double price, GuitarSpec spec)
         {
-            Guitar guitar = new Guitar(serialNumber,price, builder,model,type,backWood,topWood);
-            guitars.Add(guitar);
+            Guitar guitar = new Guitar(serialNumber, price, spec);
+            _guitars.Add(guitar);
         }
-        public Guitar getGuitar(string serialNumber) 
+        public Guitar getGuitar(string serialNumber)
         {
-            foreach (var guitar in guitars)
+            foreach (var guitar in _guitars)
             {
                 if (guitar.SerialNumber.Equals(serialNumber))
                 {
@@ -32,40 +32,19 @@ namespace BasicGuitarStore
             }
             return null;
         }
-        public List<Guitar> search(Guitar searchGuitar)
+        public List<Guitar> search(GuitarSpec searchGuitar)
         {
-            List<Guitar>matchingGuitars = new List<Guitar>();
+            List<Guitar> matchingGuitars = new List<Guitar>();
 
-            foreach (var guitar in guitars)
+            foreach (var guitar in _guitars)
             {
-                string builder = searchGuitar.Builder.ToLower();
-                if ((builder != null) && (!builder.Equals("")) && (!builder.Equals(guitar.Builder.ToLower())))
-                {
-                    continue;
-                }
-                string model = searchGuitar.Model.ToLower();
-                if ((model != null) && (!model.Equals("")) && (!model.Equals(guitar.Model.ToLower())))
-                {
-                    continue;
-                }
-                string type = searchGuitar.Type.ToLower();
-                if ((type != null) && (!type.Equals("")) && (!type.Equals(guitar.Type.ToLower())))
-                {
-                    continue;
-                }
-                string backWood = searchGuitar.BackWood.ToLower();
-                if ((backWood != null) && (!backWood.Equals("")) && (!backWood.Equals(guitar.BackWood.ToLower())))
-                {
-                    continue;
-                }
-                string topWood = searchGuitar.TopWood.ToLower()    ;
-                if ((topWood != null) && (!topWood.Equals("")) && (!topWood.Equals(guitar.TopWood.ToLower())))
+                if (!searchGuitar.Equals(guitar.GuitarSpec))
                 {
                     continue;
                 }
                 matchingGuitars.Add(guitar);
             }
             return matchingGuitars;
-        }    
+        }
     }
 }
