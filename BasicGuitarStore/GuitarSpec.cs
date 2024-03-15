@@ -13,14 +13,16 @@ namespace BasicGuitarStore
         public string Type { get; set; }
         public string BackWood { get; set; }
         public string TopWood { get; set; }
+        public int NbStrings {  get; set; }
 
-        public GuitarSpec(string builder, string model, string type, string backWood, string topWood)
+        public GuitarSpec(string builder, string model, string type, string backWood, string topWood, int nbStrings)
         {
             Builder = builder.ToLower();
             Model = model.ToLower();
             Type = type.ToLower();
             BackWood = backWood.ToLower();
             TopWood = topWood.ToLower();
+            NbStrings = nbStrings;
         }
 
         public override bool Equals(Object? obj)
@@ -33,7 +35,8 @@ namespace BasicGuitarStore
                     this.Model == ((GuitarSpec)obj).Model &&
                     this.Type == ((GuitarSpec)obj).Type &&
                     this.BackWood == ((GuitarSpec)obj).BackWood &&
-                    this.TopWood == ((GuitarSpec)obj).TopWood;
+                    this.TopWood == ((GuitarSpec)obj).TopWood && 
+                    this.NbStrings == ((GuitarSpec)obj).NbStrings;
         }
     }
 }
