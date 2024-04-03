@@ -5,28 +5,34 @@ namespace BasicGuitarStore
 {
     public class Program
     {
-        private static Inventory inventory = initializeInventory();
-
-        private static GuitarSpec whatErinLikes = new GuitarSpec("fender", "Stratocastor", "electric", "Alder", "Alder", 12);
-
         public static void Main()
         {
-            Console.WriteLine(whatErinLikes);
-            List<Guitar> matchingGuitars = inventory.search(whatErinLikes);
-            if (matchingGuitars != null && matchingGuitars.Count > 0)
+            Inventory inventory = new Inventory();
+            initializeInventory(inventory);
+
+            Dictionary<string,string> properties = new Dictionary<string,string>();
+            properties.Add("InstrumentType", InstrumentType.Guitar.ToString());
+            properties.Add("Builder", Builder.Stratocastor.ToString());
+            properties.Add("TopWood", Wood.Maple.ToString());
+            properties.Add("BackWood", Wood.Rosewood.ToString());
+            InstrumentSpec clientSpec = new InstrumentSpec(properties);
+
+            Console.WriteLine("What Erin likes: \n" + clientSpec.ToString());
+
+            List<Instrument> matchingInstruments = inventory.search(clientSpec);
+            if(matchingInstruments.Count > 0)
             {
-                Console.WriteLine("Erin, you might like this: \n");
-                foreach (var guitar in matchingGuitars)
+                Console.WriteLine("You might like these instruments:");
+                foreach (Instrument instrument in matchingInstruments)
                 {
-                    GuitarSpec spec = guitar.GuitarSpec;
-                    Console.WriteLine(spec.Builder + " " + spec.Model + "\n" +
-                        spec.Type + " guitar:\n " +
-                        spec.BackWood + " back and sides,\n " +
-                        spec.TopWood + " top.\n" +
-                        spec.NbStrings + " strings\n" +
-                        "You can have it for only $" +
-                        guitar.Price + "! \n ----"
-                    );
+                    InstrumentSpec spec = instrument.Spec;
+                    foreach(string key in  spec.Properties.Keys)
+                    {
+                        if (key == "InstrumentType")
+                            continue;
+                        Console.WriteLine(" " + key + ": " + spec.Properties[key]);
+                    }
+                    Console.WriteLine(" You can have this " + spec.Properties["InstrumentType"] + " for $" + instrument.Price + "\n---");
                 }
             }
             else
@@ -35,17 +41,18 @@ namespace BasicGuitarStore
             }
         }
 
-        private static Inventory initializeInventory()
+        private static void initializeInventory(Inventory inventory)
         {
-            Inventory inventory = new Inventory();
-            GuitarSpec spec1 = new GuitarSpec("Fender", "Stratocastor", "electric", "Alder", "Alder", 6);
-            GuitarSpec spec2 = new GuitarSpec("FENDER", "Stratocastor", "ELECTRIC", "Alder", "Alder", 12);
+            Dictionary<string, string> properties = new Dictionary<string, string>();
+            properties.Add("InstrumentType", InstrumentType.Guitar.ToString());
+            properties.Add("Builder", Builder.Stratocastor.ToString());
+            properties.Add("Model", "CJ");
+            properties.Add("Type", Type.Acoustic.ToString());
+            properties.Add("NumString", "6");
+            properties.Add("TopWood", Wood.Maple.ToString());
+            properties.Add("BackWood", Wood.Rosewood.ToString());
 
-            inventory.addGuitar("V95693", 1499.95, spec1);
-            inventory.addGuitar("V9512", 1549.95, spec2);
-            return inventory;
+            inventory.addInstrument("V95693", (float)1499.95, new InstrumentSpec(properties));
         }
-
-
     }
 }

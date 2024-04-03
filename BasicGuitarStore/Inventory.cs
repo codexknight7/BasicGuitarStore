@@ -8,43 +8,46 @@ using System.Threading.Tasks;
 
 namespace BasicGuitarStore
 {
-    internal class Inventory
+    public class Inventory
     {
-        private List<Guitar> _guitars;
+        private List<Instrument> _instruments;
 
         public Inventory()
         {
-            _guitars = new List<Guitar>();
+            _instruments = new List<Instrument>();
         }
-        public void addGuitar(string serialNumber, double price, GuitarSpec spec)
+        public void addInstrument(string serialNumber, float price, InstrumentSpec spec)
         {
-            Guitar guitar = new Guitar(serialNumber, price, spec);
-            _guitars.Add(guitar);
+            Instrument instrument = new Instrument(serialNumber, price, spec);  
+           
+            _instruments.Add(instrument);
         }
-        public Guitar getGuitar(string serialNumber)
+        public Instrument getInstrument(string serialNumber)
         {
-            foreach (var guitar in _guitars)
+            Instrument instrument = null!;
+            foreach (var item in _instruments)
             {
-                if (guitar.SerialNumber.Equals(serialNumber))
+                if (item.SerialNumber.Equals(serialNumber))
                 {
-                    return guitar;
+                    instrument = item;
+                    break;
                 }
             }
-            return null;
+            return instrument;
         }
-        public List<Guitar> search(GuitarSpec searchGuitar)
+        public List<Instrument> search(InstrumentSpec searchSpec)
         {
-            List<Guitar> matchingGuitars = new List<Guitar>();
+            List<Instrument> matchingInstruments = new List<Instrument>();
 
-            foreach (var guitar in _guitars)
+            foreach (Instrument instrument in _instruments)
             {
-                if (!searchGuitar.Equals(guitar.GuitarSpec))
+                if (!instrument.Spec.Matches(searchSpec))
                 {
                     continue;
                 }
-                matchingGuitars.Add(guitar);
+                matchingInstruments.Add(instrument);
             }
-            return matchingGuitars;
+            return matchingInstruments;
         }
     }
 }
